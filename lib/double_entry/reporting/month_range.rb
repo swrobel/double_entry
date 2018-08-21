@@ -8,7 +8,7 @@ module DoubleEntry
         end
 
         def current
-          from_time(Time.now)
+          from_time(Time.zone.now)
         end
 
         # Obtain a sequence of MonthRanges from the given start to the current
@@ -41,7 +41,7 @@ module DoubleEntry
         if options.present?
           @month = options[:month]
 
-          month_start = Time.local(year, options[:month], 1)
+          month_start = Time.zone.local(year, options[:month], 1)
           @start = month_start
           @finish = month_start.end_of_month
 

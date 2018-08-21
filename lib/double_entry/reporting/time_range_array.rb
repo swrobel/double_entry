@@ -23,12 +23,12 @@ module DoubleEntry
 
       def start_range(start = nil)
         fail 'Must specify start of range' if start.blank? && require_start?
-        start_time = start ? Time.parse(start) : Reporting.configuration.start_of_business
+        start_time = start ? Time.zone.parse(start) : Reporting.configuration.start_of_business
         type.from_time(start_time)
       end
 
       def finish_range(finish = nil)
-        finish ? type.from_time(Time.parse(finish)) : type.current
+        finish ? type.from_time(Time.zone.parse(finish)) : type.current
       end
 
       FACTORIES = {

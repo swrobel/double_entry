@@ -22,7 +22,7 @@ module DoubleEntry
         end
 
         def current
-          from_time(Time.now)
+          from_time(Time.zone.now)
         end
 
         # Obtain a sequence of WeekRanges from the given start to the current
@@ -45,7 +45,7 @@ module DoubleEntry
       private
 
         def start_of_year(year)
-          Time.local(year, 1, 1).beginning_of_week
+          Time.zone.local(year, 1, 1).beginning_of_week
         end
 
         def earliest_week

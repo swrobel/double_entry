@@ -21,16 +21,16 @@ module DoubleEntry
 
       context 'given a deposit was made in 2007 and 2008' do
         before do
-          Timecop.travel(Time.local(2007)) do
+          Timecop.travel(Time.zone.local(2007)) do
             perform_deposit user, 10_00
           end
-          Timecop.travel(Time.local(2008)) do
+          Timecop.travel(Time.zone.local(2008)) do
             perform_deposit user, 20_00
           end
         end
 
         context 'given the date is 2009-03-19' do
-          before { Timecop.travel(Time.local(2009, 3, 19)) }
+          before { Timecop.travel(Time.zone.local(2009, 3, 19)) }
 
           context 'when called with range type of "year"' do
             let(:range_type) { 'year' }
@@ -63,10 +63,10 @@ module DoubleEntry
 
       context 'given a deposit was made in October and December 2006' do
         before do
-          Timecop.travel(Time.local(2006, 10)) do
+          Timecop.travel(Time.zone.local(2006, 10)) do
             perform_deposit user, 10_00
           end
-          Timecop.travel(Time.local(2006, 12)) do
+          Timecop.travel(Time.zone.local(2006, 12)) do
             perform_deposit user, 20_00
           end
         end
@@ -79,7 +79,7 @@ module DoubleEntry
         end
 
         context 'given the date is 2007-02-02' do
-          before { Timecop.travel(Time.local(2007, 2, 2)) }
+          before { Timecop.travel(Time.zone.local(2007, 2, 2)) }
 
           context 'when called with range type of "month"' do
             let(:range_type) { 'month' }
@@ -92,7 +92,7 @@ module DoubleEntry
       context 'when account is in BTC currency' do
         let(:account) { :btc_savings }
         let(:range_type) { 'year' }
-        let(:start) { "#{Time.now.year}-01-01" }
+        let(:start) { "#{Time.zone.now.year}-01-01" }
         let(:transfer_code) { :btc_test_transfer }
 
         before do

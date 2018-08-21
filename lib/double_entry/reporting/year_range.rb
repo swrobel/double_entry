@@ -7,13 +7,13 @@ module DoubleEntry
       def initialize(options)
         super options
 
-        year_start = Time.local(@year, 1, 1)
+        year_start = Time.zone.local(@year, 1, 1)
         @start = year_start
         @finish = year_start.end_of_year
       end
 
       def self.current
-        new(:year => Time.now.year)
+        new(:year => Time.zone.now.year)
       end
 
       def self.from_time(time)

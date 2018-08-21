@@ -325,7 +325,7 @@ RSpec.describe DoubleEntry do
     end
 
     it 'can be queried between two points in time, even in the future' do
-      expect(btc_wallet.balance(:from => Time.now, :to => 2.weeks.from_now)).to eq(Money.new(200_00, 'BTC'))
+      expect(btc_wallet.balance(:from => Time.zone.now, :to => 2.weeks.from_now)).to eq(Money.new(200_00, 'BTC'))
     end
 
     it 'can report on balances, scoped by code' do

@@ -5,8 +5,8 @@ RSpec.describe DoubleEntry::Reporting::LineAggregateFilter do
     let(:account) { :account }
     let(:code) { :transfer_code }
     let(:filter_criteria) { nil }
-    let(:start) { Time.parse('2014-07-27 10:55:44 +1000') }
-    let(:finish) { Time.parse('2015-07-27 10:55:44 +1000') }
+    let(:start) { Time.zone.parse('2014-07-27 10:55:44 +1000') }
+    let(:finish) { Time.zone.parse('2015-07-27 10:55:44 +1000') }
     let(:range) do
       instance_double(DoubleEntry::Reporting::MonthRange, :start  => start, :finish => finish)
     end

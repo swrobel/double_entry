@@ -8,6 +8,8 @@ if ActiveRecord::VERSION::MAJOR < 4
   Test::Unit::AutoRunner.need_auto_run = false
 end
 
+Time.zone ||= 'UTC'
+
 db_engine = ENV['DB'] || 'mysql'
 
 FileUtils.mkdir_p 'tmp'

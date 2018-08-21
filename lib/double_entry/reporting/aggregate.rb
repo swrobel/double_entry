@@ -88,7 +88,7 @@ module DoubleEntry
       end
 
       def range_is_complete?
-        Time.now > range.finish
+        Time.zone.now > range.finish
       end
 
       def field_hash

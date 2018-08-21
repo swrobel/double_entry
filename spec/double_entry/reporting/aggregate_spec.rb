@@ -12,22 +12,22 @@ module DoubleEntry
 
       before do
         # Thursday
-        Timecop.freeze Time.local(2009, 10, 1) do
+        Timecop.freeze Time.zone.local(2009, 10, 1) do
           perform_deposit user, 20_00
         end
 
         # Saturday
-        Timecop.freeze Time.local(2009, 10, 3) do
+        Timecop.freeze Time.zone.local(2009, 10, 3) do
           perform_deposit user, 40_00
         end
 
-        Timecop.freeze Time.local(2009, 10, 10) do
+        Timecop.freeze Time.zone.local(2009, 10, 10) do
           perform_deposit user, 50_00
         end
-        Timecop.freeze Time.local(2009, 11, 1, 0, 59, 0) do
+        Timecop.freeze Time.zone.local(2009, 11, 1, 0, 59, 0) do
           perform_deposit user, 40_00
         end
-        Timecop.freeze Time.local(2009, 11, 1, 1, 00, 0) do
+        Timecop.freeze Time.zone.local(2009, 11, 1, 1, 00, 0) do
           perform_deposit user, 50_00
         end
       end
@@ -78,7 +78,7 @@ module DoubleEntry
       end
 
       it 'should calculate, but not store aggregates when the time range is still current' do
-        Timecop.freeze Time.local(2009, 11, 21) do
+        Timecop.freeze Time.zone.local(2009, 11, 21) do
           amount = Aggregate.new(:sum, :savings, :bonus, TimeRange.make(:year => 2009, :month => 11)).formatted_amount
           expect(amount).to eq Money.new(90_00)
           expect(LineAggregate.count).to eq 0
@@ -86,7 +86,7 @@ module DoubleEntry
       end
 
       it 'should calculate, but not store aggregates when the time range is in the future' do
-        Timecop.freeze Time.local(2009, 11, 21) do
+        Timecop.freeze Time.zone.local(2009, 11, 21) do
           amount = Aggregate.new(:sum, :savings, :bonus, TimeRange.make(:year => 2009, :month => 12)).formatted_amount
           expect(amount).to eq Money.new(0)
           expect(LineAggregate.count).to eq 0
@@ -146,11 +146,11 @@ module DoubleEntry
         end
 
         before do
-          Timecop.freeze Time.local(2011, 10, 10) do
+          Timecop.freeze Time.zone.local(2011, 10, 10) do
             perform_deposit user, 10_00
           end
 
-          Timecop.freeze Time.local(2011, 10, 10) do
+          Timecop.freeze Time.zone.local(2011, 10, 10) do
             perform_deposit user, 9_00
           end
         end
@@ -197,7 +197,7 @@ module DoubleEntry
       end
 
       it 'should calculate the sum in the correct currency' do
-        amount = Aggregate.new(:sum, :btc_savings, :btc_test_transfer, TimeRange.make(:year => Time.now.year)).formatted_amount
+        amount = Aggregate.new(:sum, :btc_savings, :btc_test_transfer, TimeRange.make(:year => Time.zone.now.year)).formatted_amount
         expect(amount).to eq(Money.new(300_000_000, :btc))
       end
     end

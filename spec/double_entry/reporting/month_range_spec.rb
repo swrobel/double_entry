@@ -6,7 +6,7 @@ module DoubleEntry
         subject(:from_time) { MonthRange.from_time(given_time) }
 
         context 'given the Time 31st March 2012' do
-          let(:given_time) { Time.new(2012, 3, 31) }
+          let(:given_time) { Time.zone.local(2012, 3, 31) }
           its(:year) { should eq 2012 }
           its(:month) { should eq 3 }
         end
@@ -22,7 +22,7 @@ module DoubleEntry
         subject(:reportable_months) { MonthRange.reportable_months }
 
         context 'The date is 1st March 1970' do
-          before { Timecop.freeze(Time.new(1970, 3, 1)) }
+          before { Timecop.freeze(Time.zone.local(1970, 3, 1)) }
 
           specify do
             should eq [
@@ -35,7 +35,7 @@ module DoubleEntry
           context 'My business started on 5th Feb 1970' do
             before do
               DoubleEntry::Reporting.configure do |config|
-                config.start_of_business = Time.new(1970, 2, 5)
+                config.start_of_business = Time.zone.local(1970, 2, 5)
               end
             end
 
@@ -49,7 +49,7 @@ module DoubleEntry
         end
 
         context 'The date is 1st Jan 1970' do
-          before { Timecop.freeze(Time.new(1970, 1, 1)) }
+          before { Timecop.freeze(Time.zone.local(1970, 1, 1)) }
 
           it { should eq [MonthRange.new(:year => 1970, :month => 1)] }
         end
@@ -119,10 +119,10 @@ module DoubleEntry
         end
 
         context 'Given a start time of 3rd Dec 1982' do
-          subject(:reportable_months) { MonthRange.reportable_months(:from => Time.new(1982, 12, 3)) }
+          subject(:reportable_months) { MonthRange.reportable_months(:from => Time.zone.local(1982, 12, 3)) }
 
           context 'The date is 2nd Feb 1983' do
-            before { Timecop.freeze(Time.new(1983, 2, 2)) }
+            before { Timecop.freeze(Time.zone.local(1983, 2, 2)) }
 
             specify do
               should eq [

@@ -12,10 +12,10 @@ module DoubleEntry
             let(:finish) { '2007-05-03 18:00:00' }
             specify do
               should eq [
-                HourRange.from_time(Time.new(2007, 5, 3, 15)),
-                HourRange.from_time(Time.new(2007, 5, 3, 16)),
-                HourRange.from_time(Time.new(2007, 5, 3, 17)),
-                HourRange.from_time(Time.new(2007, 5, 3, 18)),
+                HourRange.from_time(Time.zone.local(2007, 5, 3, 15)),
+                HourRange.from_time(Time.zone.local(2007, 5, 3, 16)),
+                HourRange.from_time(Time.zone.local(2007, 5, 3, 17)),
+                HourRange.from_time(Time.zone.local(2007, 5, 3, 18)),
               ]
             end
           end
@@ -36,11 +36,11 @@ module DoubleEntry
             let(:finish) { '2007-05-07' }
             specify do
               should eq [
-                DayRange.from_time(Time.new(2007, 5, 3)),
-                DayRange.from_time(Time.new(2007, 5, 4)),
-                DayRange.from_time(Time.new(2007, 5, 5)),
-                DayRange.from_time(Time.new(2007, 5, 6)),
-                DayRange.from_time(Time.new(2007, 5, 7)),
+                DayRange.from_time(Time.zone.local(2007, 5, 3)),
+                DayRange.from_time(Time.zone.local(2007, 5, 4)),
+                DayRange.from_time(Time.zone.local(2007, 5, 5)),
+                DayRange.from_time(Time.zone.local(2007, 5, 6)),
+                DayRange.from_time(Time.zone.local(2007, 5, 7)),
               ]
             end
           end
@@ -61,10 +61,10 @@ module DoubleEntry
             let(:finish) { '2007-05-24' }
             specify do
               should eq [
-                WeekRange.from_time(Time.new(2007, 5, 3)),
-                WeekRange.from_time(Time.new(2007, 5, 10)),
-                WeekRange.from_time(Time.new(2007, 5, 17)),
-                WeekRange.from_time(Time.new(2007, 5, 24)),
+                WeekRange.from_time(Time.zone.local(2007, 5, 3)),
+                WeekRange.from_time(Time.zone.local(2007, 5, 10)),
+                WeekRange.from_time(Time.zone.local(2007, 5, 17)),
+                WeekRange.from_time(Time.zone.local(2007, 5, 24)),
               ]
             end
           end
@@ -85,10 +85,10 @@ module DoubleEntry
             let(:finish) { '2007-08-24' }
             specify do
               should eq [
-                MonthRange.from_time(Time.new(2007, 5)),
-                MonthRange.from_time(Time.new(2007, 6)),
-                MonthRange.from_time(Time.new(2007, 7)),
-                MonthRange.from_time(Time.new(2007, 8)),
+                MonthRange.from_time(Time.zone.local(2007, 5)),
+                MonthRange.from_time(Time.zone.local(2007, 6)),
+                MonthRange.from_time(Time.zone.local(2007, 7)),
+                MonthRange.from_time(Time.zone.local(2007, 8)),
               ]
             end
           end
@@ -98,19 +98,19 @@ module DoubleEntry
             let(:finish) { nil }
 
             context 'and the date is "2007-04-13"' do
-              before { Timecop.freeze(Time.new(2007, 4, 13)) }
+              before { Timecop.freeze(Time.zone.local(2007, 4, 13)) }
 
               specify do
                 should eq [
-                  MonthRange.from_time(Time.new(2006, 8)),
-                  MonthRange.from_time(Time.new(2006, 9)),
-                  MonthRange.from_time(Time.new(2006, 10)),
-                  MonthRange.from_time(Time.new(2006, 11)),
-                  MonthRange.from_time(Time.new(2006, 12)),
-                  MonthRange.from_time(Time.new(2007, 1)),
-                  MonthRange.from_time(Time.new(2007, 2)),
-                  MonthRange.from_time(Time.new(2007, 3)),
-                  MonthRange.from_time(Time.new(2007, 4)),
+                  MonthRange.from_time(Time.zone.local(2006, 8)),
+                  MonthRange.from_time(Time.zone.local(2006, 9)),
+                  MonthRange.from_time(Time.zone.local(2006, 10)),
+                  MonthRange.from_time(Time.zone.local(2006, 11)),
+                  MonthRange.from_time(Time.zone.local(2006, 12)),
+                  MonthRange.from_time(Time.zone.local(2007, 1)),
+                  MonthRange.from_time(Time.zone.local(2007, 2)),
+                  MonthRange.from_time(Time.zone.local(2007, 3)),
+                  MonthRange.from_time(Time.zone.local(2007, 4)),
                 ]
               end
             end
@@ -121,7 +121,7 @@ module DoubleEntry
           let(:range_type) { 'year' }
 
           context 'given the date is "2009-11-23"' do
-            before { Timecop.freeze(Time.new(2009, 11, 23)) }
+            before { Timecop.freeze(Time.zone.local(2009, 11, 23)) }
 
             context 'given start is "2007-05-03" and finish is "2008-08-24"' do
               let(:start)  { '2007-05-03' }
@@ -129,8 +129,8 @@ module DoubleEntry
 
               it 'takes notice of start and finish' do
                 should eq [
-                  YearRange.from_time(Time.new(2007)),
-                  YearRange.from_time(Time.new(2008)),
+                  YearRange.from_time(Time.zone.local(2007)),
+                  YearRange.from_time(Time.zone.local(2008)),
                 ]
               end
             end
@@ -139,7 +139,7 @@ module DoubleEntry
               before do
                 allow(DoubleEntry::Reporting).
                   to receive_message_chain('configuration.start_of_business').
-                  and_return(Time.new(2006, 7, 10))
+                  and_return(Time.zone.local(2006, 7, 10))
               end
 
               context 'given start and finish are nil' do
@@ -147,10 +147,10 @@ module DoubleEntry
                 let(:finish) { nil }
                 specify do
                   should eq [
-                    YearRange.from_time(Time.new(2006)),
-                    YearRange.from_time(Time.new(2007)),
-                    YearRange.from_time(Time.new(2008)),
-                    YearRange.from_time(Time.new(2009)),
+                    YearRange.from_time(Time.zone.local(2006)),
+                    YearRange.from_time(Time.zone.local(2007)),
+                    YearRange.from_time(Time.zone.local(2008)),
+                    YearRange.from_time(Time.zone.local(2009)),
                   ]
                 end
               end

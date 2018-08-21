@@ -26,21 +26,21 @@ RSpec.describe DoubleEntry::BalanceCalculator do
 
     describe 'what happens with different times' do
       context 'when we want to sum the lines before a given created_at date' do
-        let(:at) { Time.parse('2014-06-19 15:09:18 +1000') }
+        let(:at) { Time.zone.parse('2014-06-19 15:09:18 +1000') }
 
         it 'scopes the lines summed to times before (or at) the given time' do
           expect(relation).to have_received(:where).with(
-            'created_at <= ?', Time.parse('2014-06-19 15:09:18 +1000')
+            'created_at <= ?', Time.zone.parse('2014-06-19 15:09:18 +1000')
           )
         end
 
         context 'when a time range is also specified' do
-          let(:from) { Time.parse('2014-06-19 10:09:18 +1000') }
-          let(:to) { Time.parse('2014-06-19 20:09:18 +1000') }
+          let(:from) { Time.zone.parse('2014-06-19 10:09:18 +1000') }
+          let(:to) { Time.zone.parse('2014-06-19 20:09:18 +1000') }
 
           it 'ignores the time range when summing the lines' do
             expect(relation).to_not have_received(:where).with(
-              :created_at => Time.parse('2014-06-19 10:09:18 +1000')..Time.parse('2014-06-19 20:09:18 +1000'),
+              :created_at => Time.zone.parse('2014-06-19 10:09:18 +1000')..Time.zone.parse('2014-06-19 20:09:18 +1000'),
             )
             expect(relation).to_not have_received(:sum)
           end
@@ -48,12 +48,12 @@ RSpec.describe DoubleEntry::BalanceCalculator do
       end
 
       context 'when we want to sum the lines between a given range' do
-        let(:from) { Time.parse('2014-06-19 10:09:18 +1000') }
-        let(:to) { Time.parse('2014-06-19 20:09:18 +1000') }
+        let(:from) { Time.zone.parse('2014-06-19 10:09:18 +1000') }
+        let(:to) { Time.zone.parse('2014-06-19 20:09:18 +1000') }
 
         it 'scopes the lines summed to times within the given range' do
           expect(relation).to have_received(:where).with(
-            :created_at => Time.parse('2014-06-19 10:09:18 +1000')..Time.parse('2014-06-19 20:09:18 +1000'),
+            :created_at => Time.zone.parse('2014-06-19 10:09:18 +1000')..Time.zone.parse('2014-06-19 20:09:18 +1000'),
           )
           expect(relation).to have_received(:sum).with(:amount)
         end

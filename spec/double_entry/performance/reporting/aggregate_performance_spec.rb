@@ -18,7 +18,7 @@ module DoubleEntry
         # 10     => 509ms
         # 1      => 473ms
         before do
-          Timecop.freeze Time.local(2015, 06, 30) do
+          Timecop.freeze Time.zone.local(2015, 06, 30) do
             100.times { Transfer.transfer(amount, :from => test, :to => savings, :code => :bonus) }
             100.times { Transfer.transfer(amount, :from => test, :to => savings, :code => :bonus, :metadata => { :country => 'AU', :tax => 'GST' }) }
           end

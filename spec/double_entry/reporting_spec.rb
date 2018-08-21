@@ -7,15 +7,15 @@ RSpec.describe DoubleEntry::Reporting do
       context 'configured to 2011-03-12' do
         before do
           DoubleEntry::Reporting.configure do |config|
-            config.start_of_business = Time.new(2011, 3, 12)
+            config.start_of_business = Time.zone.local(2011, 3, 12)
           end
         end
 
-        it { should eq Time.new(2011, 3, 12) }
+        it { should eq Time.zone.local(2011, 3, 12) }
       end
 
       context 'not configured' do
-        it { should eq Time.new(1970, 1, 1) }
+        it { should eq Time.zone.local(1970, 1, 1) }
       end
     end
   end
